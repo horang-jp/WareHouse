@@ -13,7 +13,7 @@ class AddFoodViewController : UIViewController, UIPickerViewDataSource, UIPicker
     @IBOutlet var expDate: UIDatePicker!
     @IBOutlet var category: UIPickerView!
     
-    override func viewDidLoad() { // textField에 Custom디자인을 적용한 코드. 밑줄이 생성된다.
+    override func viewDidLoad() {
         let border = CALayer()
         let width = CGFloat(0.3)
         border.borderColor = UIColor.gray.cgColor
@@ -26,27 +26,30 @@ class AddFoodViewController : UIViewController, UIPickerViewDataSource, UIPicker
         self.category.dataSource = self
         
     }
-    // UIPickerView 설정 메서드
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
         
     }
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         print(FoodCategory.count)
         return FoodCategory.count
         
     }
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return FoodCategory(rawValue: row)?.description
         
-    } // 새 Food객체 생성 메서드
+    } 
+    
     func newFood() -> Food? {
         let food = Food(value: ["name":name.text!, "expDate":expDate.date])
         food.category = FoodCategory(rawValue: category.selectedRow(inComponent: 0))!
         return food
         
     }
-    // unwind 하기 전 실행되는 메서드.
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addDone" {
             guard let food = newFood() else {
